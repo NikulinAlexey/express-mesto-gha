@@ -15,7 +15,6 @@ const getCards = (req, res, next) => {
     .orFail(() => new NotFoundError('Карточки не найдены'))
     .then((cards) => {
       res
-        .status(200)
         .send(cards);
     })
     .catch(next);
@@ -57,7 +56,7 @@ const deleteCard = (req, res, next) => {
     .catch(next);
 };
 
-const addLikeToCard = (req, res) => {
+const addLikeToCard = (req, res, next) => {
   const { _id } = req.user;
   const { cardId } = req.params;
 
@@ -66,36 +65,16 @@ const addLikeToCard = (req, res) => {
     { $addToSet: { likes: _id } },
     { new: true },
   )
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Карточка не найдена'))
     .then((card) => {
       res
         .status(201)
         .send(card);
     })
-    .catch((err) => {
-      if (err.message.includes('Not found')) {
-        res
-          .status(NOT_FOUND_ERROR_CODE)
-          .send({
-            message: 'Добавление лайка с несуществующим в БД id карточки',
-          });
-      } else if (err.message.includes('Cast to ObjectId failed for value')) {
-        res
-          .status(INVALID_PARAMS_ERROR_CODE)
-          .send({
-            message: 'Добавление лайка с некорректным id карточки',
-          });
-      } else {
-        res
-          .status(DEFAULT_ERROR_CODE)
-          .send({
-            message: 'Произошла ошибка',
-          });
-      }
-    });
+    .catch(next);
 };
 
-const removeLikeFromCard = (req, res) => {
+const removeLikeFromCard = (req, res, next) => {
   const { _id } = req.user;
   const { cardId } = req.params;
 
@@ -107,32 +86,12 @@ const removeLikeFromCard = (req, res) => {
       runValidators: true,
     },
   )
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Карточка не найдена'))
     .then((likes) => {
       res
         .send(likes);
     })
-    .catch((err) => {
-      if (err.message.includes('Not found')) {
-        res
-          .status(NOT_FOUND_ERROR_CODE)
-          .send({
-            message: 'Удаление лайка у карточки с несуществующим в БД id',
-          });
-      } else if (err.message.includes('Cast to ObjectId failed for value')) {
-        res
-          .status(INVALID_PARAMS_ERROR_CODE)
-          .send({
-            message: 'Удаление лайка у карточки с некорректным id',
-          });
-      } else {
-        res
-          .status(DEFAULT_ERROR_CODE)
-          .send({
-            message: 'Произошла ошибка',
-          });
-      }
-    });
+    .catch(next);
 };
 
 module.exports = {
