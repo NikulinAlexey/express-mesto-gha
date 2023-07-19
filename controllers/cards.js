@@ -1,11 +1,5 @@
 const Card = require('../models/card');
 
-const {
-  DEFAULT_ERROR_CODE,
-  NOT_FOUND_ERROR_CODE,
-  INVALID_PARAMS_ERROR_CODE,
-} = require('../errors/error-codes');
-
 const NotFoundError = require('../errors/not-found-error');
 const ForbiddenError = require('../errors/forbidden-error');
 
