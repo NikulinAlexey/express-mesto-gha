@@ -4,10 +4,6 @@ const NotFoundError = require('../errors/not-found-error');
 const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => {
-      if (!users) {
-        throw new NotFoundError('Пользователи не найдены');
-      }
-
       res.send(users);
     })
     .catch(next);
@@ -18,10 +14,8 @@ const getUserById = (req, res, next) => {
   User.findById(id)
     .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      if (user) {
-        res
-          .send(user);
-      }
+      res
+        .send(user);
     })
     .catch(next);
 };
@@ -32,9 +26,6 @@ const getCurrentUser = (req, res, next) => {
   User.findById(currentUserId)
     .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь не найден');
-      }
       res.send({ data: user });
     })
     .catch(next);
@@ -56,10 +47,8 @@ const updateProfile = (req, res, next) => {
       runValidators: true,
     },
   )
+    .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь не найден');
-      }
       res.status(200).send({ user });
     })
     .catch(next);
@@ -74,12 +63,8 @@ const updateAvatar = (req, res, next) => {
     { avatar },
     { new: true },
   )
-    .orFail(() => new Error('Not found'))
+    .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError('Пользователь не найден');
-      }
-
       res.send({ user });
     })
     .catch(next);

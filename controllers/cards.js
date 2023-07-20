@@ -5,7 +5,6 @@ const ForbiddenError = require('../errors/forbidden-error');
 
 const getCards = (req, res, next) => {
   Card.find({})
-    .orFail(() => new NotFoundError('Карточки не найдены'))
     .then((cards) => {
       res
         .send(cards);

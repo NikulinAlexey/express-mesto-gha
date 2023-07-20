@@ -24,7 +24,6 @@ app.use(cookieParser());
 app.use(router);
 
 app.use((req, res, next) => {
-  // res.status(404).send({ message: 'Страница не найдена' });
   next(new NotFoundError('Страница не найдена'));
 });
 app.use(errorHandler);
