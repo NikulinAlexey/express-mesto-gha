@@ -12,10 +12,10 @@ const app = express();
 
 mongoose.connect('mongodb://0.0.0.0:27017/mestodb')
   .then(() => {
-    console.log('Подключился к БД :-)');
+    console.log('Подключился к БД :)');
   })
   .catch(() => {
-    console.log('Ошибка при подключении к БД :-(');
+    console.log('Ошибка при подключении к БД :(');
   });
 
 app.use(express.json());
