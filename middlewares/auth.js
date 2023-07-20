@@ -8,12 +8,13 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, 'SECRET');
   } catch (err) {
-    return new UnauthorizedError('Ошибка авторизации');
+    next(new UnauthorizedError('Ошибка авторизации'));
+    return;
   }
 
   req.user = payload;
 
-  return next();
+  next();
 };
 
 module.exports = auth;
