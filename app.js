@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 const router = require('./routes');
 
 const errorHandler = require('./middlewares/error');
+const NotFoundError = require('./errors/not-found-error');
 
 const { PORT = 3000 } = process.env;
 const app = express();
@@ -23,9 +24,8 @@ app.use(cookieParser());
 app.use(router);
 
 app.use((req, res, next) => {
-  res.status(404).send({ message: 'Страница не найдена' });
-
-  next();
+  // res.status(404).send({ message: 'Страница не найдена' });
+  next(new NotFoundError('Страница не найдена'));
 });
 app.use(errorHandler);
 
