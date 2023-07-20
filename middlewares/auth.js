@@ -8,7 +8,7 @@ const auth = (req, res, next) => {
   try {
     payload = jwt.verify(token, 'SECRET');
   } catch (err) {
-    return Promise.reject(new UnauthorizedError('Ошибка авторизации'));
+    return new UnauthorizedError('Ошибка авторизации');
   }
 
   req.user = payload;
