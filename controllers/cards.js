@@ -3,7 +3,6 @@ const Card = require('../models/card');
 const NotFoundError = require('../errors/not-found-error');
 const ForbiddenError = require('../errors/forbidden-error');
 
-// исправить обработку ошибок у карточек
 const getCards = (req, res, next) => {
   Card.find({})
     .orFail(() => new NotFoundError('Карточки не найдены'))
@@ -44,8 +43,9 @@ const deleteCard = (req, res, next) => {
         throw new ForbiddenError('Можно удалить только свою карточку');
       }
 
-      card.deleteOne();
       res.send(card);
+
+      return card.deleteOne();
     })
     .catch(next);
 };
