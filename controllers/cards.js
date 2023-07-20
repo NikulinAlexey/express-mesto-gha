@@ -41,16 +41,13 @@ const deleteCard = (req, res, next) => {
 
       if (owner !== userId) {
         throw new ForbiddenError('Можно удалить только свою карточку');
+      } else {
+        res.send(card);
+        return Card.findByIdAndDelete(cardId);
       }
 
       // res.send(card);
       // return card.deleteOne();
-
-      return Card.findOneAndDelete(cardId)
-        .then((removedCard) => {
-          res.send(removedCard);
-        })
-        .catch(next);
     })
     .catch(next);
 };
