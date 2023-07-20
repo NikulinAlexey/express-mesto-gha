@@ -44,7 +44,6 @@ const deleteCard = (req, res, next) => {
       } else {
         card.deleteOne()
           .then(() => {
-            console.log('Карточка удалена');
             res
               .send(card);
           })
