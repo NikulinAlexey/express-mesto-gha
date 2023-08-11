@@ -26,7 +26,7 @@ const getCurrentUser = (req, res, next) => {
   User.findById(currentUserId)
     .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      res.send({ data: user });
+      res.send(user);
     })
     .catch(next);
 };
@@ -49,7 +49,7 @@ const updateProfile = (req, res, next) => {
   )
     .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      res.status(200).send({ user });
+      res.status(200).send(user);
     })
     .catch(next);
 };
@@ -65,7 +65,7 @@ const updateAvatar = (req, res, next) => {
   )
     .orFail(() => new NotFoundError('Пользователь не найден'))
     .then((user) => {
-      res.send({ user });
+      res.send(user);
     })
     .catch(next);
 };

@@ -24,7 +24,7 @@ const createCard = (req, res, next) => {
   })
     .then((card) => {
       res
-        .send({ card });
+        .send(card);
     })
     .catch(next);
 };
